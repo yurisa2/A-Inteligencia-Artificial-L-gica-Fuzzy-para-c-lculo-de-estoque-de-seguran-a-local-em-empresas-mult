@@ -1,0 +1,14 @@
+if var_direta is MuitoBaixo then resultado is MuitoBaixo
+if var_direta is Baixo then resultado is Baixo
+if var_direta is Neutro then resultado is Neutro
+if var_direta is Alto then resultado is Alto
+if var_direta is MuitoAlto then resultado is MuitoAlto
+if var_inversa is MuitoBaixo then resultado is MuitoAlto
+if var_inversa is Baixo then resultado is Baixo
+if var_inversa is Neutro then resultado is Neutro
+if var_inversa is Alto then resultado is Baixo
+if var_inversa is MuitoAlto then resultado is MuitoBaixo
+#---------------------------------------------
+# Total rules: 10. Good Rules: 10. Bad Rules: 0.
+# Rules successfully processed at 12:06 pm (18/07/18)
+# You may proceed to control the engine

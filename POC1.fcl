@@ -1,0 +1,60 @@
+FUNCTION_BLOCK Sinal
+
+VAR_INPUT
+var_direta: REAL;
+var_inversa: REAL;
+END_VAR
+
+VAR_OUTPUT
+resultado: REAL;
+END_VAR
+
+FUZZIFY var_direta
+RANGE := (0.000 .. 100.000);
+TERM MuitoBaixo := Trapezoid (0.000, 0.000, 10.000, 20.000);
+TERM Baixo := Triangle (10.000, 20.000, 30.000);
+TERM Neutro := Trapezoid (20.000, 30.000, 70.000, 80.000);
+TERM Alto := Triangle (70.000, 80.000, 90.000);
+TERM MuitoAlto := Trapezoid (80.000, 90.000, 100.000, 100.000);
+END_FUZZIFY
+
+FUZZIFY var_inversa
+RANGE := (0.000 .. 100.000);
+TERM MuitoBaixo := Trapezoid (0.000, 0.000, 10.000, 20.000);
+TERM Baixo := Triangle (10.000, 20.000, 30.000);
+TERM Neutro := Trapezoid (20.000, 30.000, 70.000, 80.000);
+TERM Alto := Triangle (70.000, 80.000, 90.000);
+TERM MuitoAlto := Trapezoid (80.000, 90.000, 100.000, 100.000);
+END_FUZZIFY
+
+DEFUZZIFY resultado
+RANGE := (-1.000 .. 1.000);
+TERM MuitoBaixo := Trapezoid (-1.000, -1.000, -0.800, -0.600);
+TERM Baixo := Triangle (-0.800, -0.600, -0.400);
+TERM Neutro := Trapezoid (-0.600, -0.400, 0.300, 0.400);
+TERM Alto := Triangle (0.200, 0.400, 0.600);
+TERM MuitoAlto := Trapezoid (0.600, 0.800, 1.000, 1.000);
+
+METHOD : COG;
+ACCU : MAX;
+DEFAULT := nan;
+END_DEFUZZIFY
+
+RULEBLOCK 
+AND : MIN;
+OR : MAX;
+ACT : MIN;
+
+RULE 1 : if var_direta is MuitoBaixo then resultado is MuitoBaixo
+RULE 2 : if var_direta is Baixo then resultado is Baixo
+RULE 3 : if var_direta is Neutro then resultado is Neutro
+RULE 4 : if var_direta is Alto then resultado is Alto
+RULE 5 : if var_direta is MuitoAlto then resultado is MuitoAlto
+RULE 6 : if var_inversa is MuitoBaixo then resultado is MuitoAlto
+RULE 7 : if var_inversa is Baixo then resultado is Baixo
+RULE 8 : if var_inversa is Neutro then resultado is Neutro
+RULE 9 : if var_inversa is Alto then resultado is Baixo
+RULE 10 : if var_inversa is MuitoAlto then resultado is MuitoBaixo
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
